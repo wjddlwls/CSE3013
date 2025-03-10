@@ -78,7 +78,6 @@ void InitTetris(){
 
 void DrawOutline(){	
 	int i,j;
-	/* 블럭이 떨어지는 공간의 테두리를 그린다.*/
 	DrawBox(0,0,HEIGHT,WIDTH);
 
 	move(2,WIDTH+10);
