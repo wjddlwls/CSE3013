@@ -9,8 +9,8 @@ void addEdge(int start, int end) {
 	node_pointer newnode = (node_pointer)malloc(sizeof(node));
 	newnode->visited = 0;
 	newnode->vertex = end;
-	newnode->link = graph[start];//Ã³À½¿¡ null, ÀÌÈÄºÎÅÍ´Â ³¢¿ö³Ö±â
-	graph[start] = newnode;//graph[start]°¡ newnode¸¦ °¡¸®Å°°Ô µÊ(graph[n]Àº ³ëµå¸¦ °¡¸®Å°´Â Æ÷ÀÎÅÍ)
+	newnode->link = graph[start];//ì²˜ìŒì— null, ì´í›„ë¶€í„°ëŠ” ë¼ì›Œë„£ê¸°
+	graph[start] = newnode;//graph[start]ê°€ newnodeë¥¼ ê°€ë¦¬í‚¤ê²Œ ë¨(graph[n]ì€ ë…¸ë“œë¥¼ ê°€ë¦¬í‚¤ëŠ” í¬ì¸í„°)
 
 	newnode = (node_pointer)malloc(sizeof(node));
 	newnode->vertex = start;
@@ -18,7 +18,7 @@ void addEdge(int start, int end) {
 	graph[end] = newnode;
 }
 
-void ofApp::setup() {//ÃÊ±â ¼³Á¤
+void ofApp::setup() {//ì´ˆê¸° ì„¤ì •
 
 	ofSetWindowTitle("Maze Example"); 
 	ofSetFrameRate(15);
@@ -55,12 +55,12 @@ void ofApp::setup() {//ÃÊ±â ¼³Á¤
 
 	bShowInfo = false;  // screen info display on
 	menu->AddPopupItem(hPopup, "Play Mode", false, true);
-	bShowInfo = false;  // screen info display on////////////¿ø·¡ true
-	menu->AddPopupItem(hPopup, "Show DFS", false, true); // Checked ///////¿ø·¡ f, f
-	//Ã¹¹øÂ° false´Â Ã¼Å©µÇÁö ¾ÊÀº »óÅÂ·Î ½ÃÀÛÇÑ´Ù´Â°Í, µÎ¹øÂ° true´Â ÀÚµ¿À¸·Î Ã¼Å©»óÅÂ°¡ º¯°æµÉÁöÀÇ ¿©ºÎ, Áï Ç×¸ñÀÌ ¼±ÅÃµÇ¸é ÀÚµ¿À¸·Î Ã¼Å©»óÅÂ º¯°æµÊ
+	bShowInfo = false;  // screen info display on////////////ì›ë˜ true
+	menu->AddPopupItem(hPopup, "Show DFS", false, true); // Checked ///////ì›ë˜ f, f
+	//ì²«ë²ˆì§¸ falseëŠ” ì²´í¬ë˜ì§€ ì•Šì€ ìƒíƒœë¡œ ì‹œì‘í•œë‹¤ëŠ”ê²ƒ, ë‘ë²ˆì§¸ trueëŠ” ìë™ìœ¼ë¡œ ì²´í¬ìƒíƒœê°€ ë³€ê²½ë ì§€ì˜ ì—¬ë¶€, ì¦‰ í•­ëª©ì´ ì„ íƒë˜ë©´ ìë™ìœ¼ë¡œ ì²´í¬ìƒíƒœ ë³€ê²½ë¨
 	bTopmost = false; // app is topmost
 	menu->AddPopupItem(hPopup, "Show BFS", false, true); // Not checked (default)
-	//¾È¾²¸é ÀÚµ¿À¸·Î false, false·Î
+	//ì•ˆì“°ë©´ ìë™ìœ¼ë¡œ false, falseë¡œ
 	bFullscreen = false; // not fullscreen yet
 	menu->AddPopupItem(hPopup, "Full screen", false, false); // Not checked and not auto-check
 
@@ -70,9 +70,9 @@ void ofApp::setup() {//ÃÊ±â ¼³Á¤
 	// Set the menu to the window
 	menu->SetWindowMenu();
 
-	countdownTime = 0;    // Å¸ÀÌ¸Ó ÃÊ±âÈ­
-	lastUpdateTime = 0.0; // ¸¶Áö¸· ¾÷µ¥ÀÌÆ® ½Ã°£ ÃÊ±âÈ­
-	startTime = 0.0;      // Å¸ÀÌ¸Ó ½ÃÀÛ ½Ã°£ ÃÊ±âÈ­
+	countdownTime = 0;    // íƒ€ì´ë¨¸ ì´ˆê¸°í™”
+	lastUpdateTime = 0.0; // ë§ˆì§€ë§‰ ì—…ë°ì´íŠ¸ ì‹œê°„ ì´ˆê¸°í™”
+	startTime = 0.0;      // íƒ€ì´ë¨¸ ì‹œì‘ ì‹œê°„ ì´ˆê¸°í™”
 
 } // end Setup
 
@@ -95,7 +95,7 @@ void ofApp::appMenuFunction(string title, bool bChecked) {
 
 	//
 	// Window menu
-	//¸Ş´º ¼±ÅÃ½Ã Ã¼Å© Àß µÇ°í ±×¿¡ µû¸¥ ±×¸² ½ÇÇàµµ Àß µÇµµ·Ï Á» ¼öÁ¤ÇÔ
+	//ë©”ë‰´ ì„ íƒì‹œ ì²´í¬ ì˜ ë˜ê³  ê·¸ì— ë”°ë¥¸ ê·¸ë¦¼ ì‹¤í–‰ë„ ì˜ ë˜ë„ë¡ ì¢€ ìˆ˜ì •í•¨
 	if(title == "Show DFS") {
 		//bShowInfo = bChecked;  // Flag is used elsewhere in Draw()
 		isdfs = bChecked;
@@ -107,7 +107,7 @@ void ofApp::appMenuFunction(string title, bool bChecked) {
 	}
 
 	if(title == "Show BFS") {
-		//doTopmost(bChecked); // Use the checked value directly//ÁÖ¼®Ã³¸® ¾ÈÇØµµ °á°ú ´Ş¶óÁö´Â°Å ¾øÀ½. ±×³É Ã¼Å©µÇ°Ô ÇÏ´Â ÄÚµå? 
+		//doTopmost(bChecked); // Use the checked value directly//ì£¼ì„ì²˜ë¦¬ ì•ˆí•´ë„ ê²°ê³¼ ë‹¬ë¼ì§€ëŠ”ê±° ì—†ìŒ. ê·¸ëƒ¥ ì²´í¬ë˜ê²Œ í•˜ëŠ” ì½”ë“œ? 
 		//bShowInfo = bChecked;  // Flag is used elsewhere in Draw()
 		isbfs = bChecked;
 		if (isOpen && isbfs)
@@ -122,8 +122,8 @@ void ofApp::appMenuFunction(string title, bool bChecked) {
 		//doTopmost(bChecked);
 		currentRoom = 0;
 		playroute.top = 0;
-		playroute.arr[playroute.top] = 0;//ÃÊ±âÈ­
-		calcTime2escape();//draw¿¡¼­ È£ÃâÇÏ¸é °è¼Ó ÀÌ ÇÔ¼ö ³»ÀÇ dfs()µµ °°ÀÌ È£ÃâµÅ¼­ ¸Ş¸ğ¸® º¹ÀâÇØÁö°í ¸Å¹ø ÃÊ±âÈ­ÇØ¾ßµÊ. ÇÃ·¹ÀÌ¸ğµå ÇÏ¸é ÇÑ¹ø¸¸ È£ÃâÇØ¼­ °ª ÀúÀåÇØµÎ±â. 
+		playroute.arr[playroute.top] = 0;//ì´ˆê¸°í™”
+		calcTime2escape();//drawì—ì„œ í˜¸ì¶œí•˜ë©´ ê³„ì† ì´ í•¨ìˆ˜ ë‚´ì˜ dfs()ë„ ê°™ì´ í˜¸ì¶œë¼ì„œ ë©”ëª¨ë¦¬ ë³µì¡í•´ì§€ê³  ë§¤ë²ˆ ì´ˆê¸°í™”í•´ì•¼ë¨. í”Œë ˆì´ëª¨ë“œ í•˜ë©´ í•œë²ˆë§Œ í˜¸ì¶œí•´ì„œ ê°’ ì €ì¥í•´ë‘ê¸°. 
 		isplay = bChecked;
 		isSuccess = 0;
 		isFail = 0;
@@ -146,20 +146,20 @@ void ofApp::appMenuFunction(string title, bool bChecked) {
 
 
 //--------------------------------------------------------------
-void ofApp::update() {//ÇÁ·¹ÀÓº° ¾÷µ¥ÀÌÆ® ÄÚµå
+void ofApp::update() {//í”„ë ˆì„ë³„ ì—…ë°ì´íŠ¸ ì½”ë“œ
 
 	if (isplay) {
 		float currentTime = ofGetElapsedTimef();
 		if (startTime == 0.0) {
-			// Å¸ÀÌ¸Ó ½ÃÀÛ ½Ã ÃÊ±âÈ­
+			// íƒ€ì´ë¨¸ ì‹œì‘ ì‹œ ì´ˆê¸°í™”
 			startTime = currentTime;
 			countdownTime = time_limit; 
 			lastUpdateTime = currentTime;
 		}
-		if (currentTime - lastUpdateTime >= 1.0) { // 1ÃÊ°¡ Áö³µ´ÂÁö È®ÀÎ
+		if (currentTime - lastUpdateTime >= 1.0) { // 1ì´ˆê°€ ì§€ë‚¬ëŠ”ì§€ í™•ì¸
 			if (countdownTime > 0) {
-				countdownTime--; // Å¸ÀÌ¸Ó¸¦ 1ÃÊ °¨¼Ò
-				lastUpdateTime = currentTime; // ¸¶Áö¸· ¾÷µ¥ÀÌÆ®µÈ ½Ã°£ °»½Å
+				countdownTime--; // íƒ€ì´ë¨¸ë¥¼ 1ì´ˆ ê°ì†Œ
+				lastUpdateTime = currentTime; // ë§ˆì§€ë§‰ ì—…ë°ì´íŠ¸ëœ ì‹œê°„ ê°±ì‹ 
 			}
 		}
 	}
@@ -167,7 +167,7 @@ void ofApp::update() {//ÇÁ·¹ÀÓº° ¾÷µ¥ÀÌÆ® ÄÚµå
 }
 
 //--------------------------------------------------------------
-void ofApp::draw() {//¹Ì·ÎÀÇ µÎ²², »ö, ¸ğ¾ç µî Ãß°¡ ±¸Çö
+void ofApp::draw() {//ë¯¸ë¡œì˜ ë‘ê»˜, ìƒ‰, ëª¨ì–‘ ë“± ì¶”ê°€ êµ¬í˜„
 
 	char str[256];
 	//ofBackground(0, 0, 0, 0);
@@ -176,7 +176,7 @@ void ofApp::draw() {//¹Ì·ÎÀÇ µÎ²², »ö, ¸ğ¾ç µî Ãß°¡ ±¸Çö
 	int i, j;
 	
 	// TO DO : DRAW MAZE; ///////////////////////////////////////////////////////
-	// ÀúÀåµÈ ÀÚ·á±¸Á¶¸¦ ÀÌ¿ëÇØ ¹Ì·Î¸¦ ±×¸°´Ù.
+	// ì €ì¥ëœ ìë£Œêµ¬ì¡°ë¥¼ ì´ìš©í•´ ë¯¸ë¡œë¥¼ ê·¸ë¦°ë‹¤.
 	// add code here
 
 	int startrow = 10;
@@ -184,12 +184,12 @@ void ofApp::draw() {//¹Ì·ÎÀÇ µÎ²², »ö, ¸ğ¾ç µî Ãß°¡ ±¸Çö
 	int endrow = startrow + HEIGHT * SIZE;
 	int endcol = startcol + WIDTH * SIZE;
 
-	if (isOpen) {//ÆÄÀÏ ¿ÀÇÂ Àü
-		ofDrawLine(startcol, startrow, endcol, startrow);// »ó´Ü °¡·Î¼±
-		ofDrawLine(startcol, startrow + SIZE, startcol, endrow);// ÁÂÃø ¼¼·Î¼±
-		ofDrawLine(startcol, endrow, endcol, endrow);// ÇÏ´Ü °¡·Î¼±
-		ofDrawLine(endcol, startrow, endcol, endrow - SIZE);// ¿ìÃø ¼¼·Î¼±
-		//ofDrawLineÇÔ¼ö : col, row ¼ø, Áï x, y¼øÀ¸·Î ÀÔ·ÂÇØ¾ßÇÔ
+	if (isOpen) {//íŒŒì¼ ì˜¤í”ˆ ì „
+		ofDrawLine(startcol, startrow, endcol, startrow);// ìƒë‹¨ ê°€ë¡œì„ 
+		ofDrawLine(startcol, startrow + SIZE, startcol, endrow);// ì¢Œì¸¡ ì„¸ë¡œì„ 
+		ofDrawLine(startcol, endrow, endcol, endrow);// í•˜ë‹¨ ê°€ë¡œì„ 
+		ofDrawLine(endcol, startrow, endcol, endrow - SIZE);// ìš°ì¸¡ ì„¸ë¡œì„ 
+		//ofDrawLineí•¨ìˆ˜ : col, row ìˆœ, ì¦‰ x, yìˆœìœ¼ë¡œ ì…ë ¥í•´ì•¼í•¨
 	}
 
 	ofSetLineWidth(5);
@@ -208,15 +208,15 @@ void ofApp::draw() {//¹Ì·ÎÀÇ µÎ²², »ö, ¸ğ¾ç µî Ãß°¡ ±¸Çö
 					tmp = tmp->link;
 				}
 				if (isEdge) {
-					continue;//¼± ¾È±×¸®°í ´ÙÀ½ j°ªÀ¸·Î ³Ñ¾î°¨
+					continue;//ì„  ì•ˆê·¸ë¦¬ê³  ë‹¤ìŒ jê°’ìœ¼ë¡œ ë„˜ì–´ê°
 				}
-				if (j == 0 || j == 1) {//µÑÀÌ °°Àº ÁÙÀÎ °Ü¿ì, ¼¼·Îº® ±×¸®±â
+				if (j == 0 || j == 1) {//ë‘˜ì´ ê°™ì€ ì¤„ì¸ ê²¨ìš°, ì„¸ë¡œë²½ ê·¸ë¦¬ê¸°
 					row1 = startrow + SIZE * (i / WIDTH);
 					row2 = startrow + SIZE * (i / WIDTH + 1);
 					col1 = startcol + SIZE * ((i % WIDTH+j));
 					ofDrawLine(col1, row1, col1, row2);
 				}
-				else if (j == 2 || j == 3) {//µÑÀÌ ´Ù¸¥ ÁÙÀÎ °æ¿ì, °¡·Îº® ±×¸®±â
+				else if (j == 2 || j == 3) {//ë‘˜ì´ ë‹¤ë¥¸ ì¤„ì¸ ê²½ìš°, ê°€ë¡œë²½ ê·¸ë¦¬ê¸°
 					row1 = startrow + SIZE * (i / WIDTH+j-2);
 					col1 = startrow + SIZE * (i % WIDTH);
 					col2 = startcol + SIZE * (i % WIDTH + 1);
@@ -228,7 +228,7 @@ void ofApp::draw() {//¹Ì·ÎÀÇ µÎ²², »ö, ¸ğ¾ç µî Ãß°¡ ±¸Çö
 	
 	if (isplay) {
 		if (isOpen) {
-			ofSetColor(0, 130, 153);//³²»ö
+			ofSetColor(0, 130, 153);//ë‚¨ìƒ‰
 			ofSetLineWidth(5);
 			playdraw();
 			if (currentRoom == HEIGHT * WIDTH - 1) {
@@ -348,7 +348,7 @@ void ofApp::doTopmost(bool bTop)
 
 
 //--------------------------------------------------------------
-void ofApp::keyPressed(int key) {//Å°ÀÔ·Â Ã³¸® ÄÚµå
+void ofApp::keyPressed(int key) {//í‚¤ì…ë ¥ ì²˜ë¦¬ ì½”ë“œ
 
 	// Escape key exit has been disabled but it can be checked here
 	if (key == VK_ESCAPE) {
@@ -376,7 +376,7 @@ void ofApp::keyPressed(int key) {//Å°ÀÔ·Â Ã³¸® ÄÚµå
 		// If there is no menu when you call the SetPopupItem function it will crash
 	}
 
-	//Å° ÀÔ·Â¿¡ µû¸¥ ÀÌµ¿ ±â´É Ãß°¡ ±¸Çö
+	//í‚¤ ì…ë ¥ì— ë”°ë¥¸ ì´ë™ ê¸°ëŠ¥ ì¶”ê°€ êµ¬í˜„
 	if (isplay && !isSuccess && !isFail) {
 		int tmpRoom = 0;
 		if (key == OF_KEY_RIGHT) {
@@ -422,7 +422,7 @@ bool ofApp::isMovable(int startRoom, int endRoom){
 }
 
 //--------------------------------------------------------------
-void ofApp::keyReleased(int key){//Å° ¸±¸®½º Ã³¸®ÄÚµå
+void ofApp::keyReleased(int key){//í‚¤ ë¦´ë¦¬ìŠ¤ ì²˜ë¦¬ì½”ë“œ
 
 }
 
@@ -460,11 +460,11 @@ void ofApp::gotMessage(ofMessage msg){
 void ofApp::dragEvent(ofDragInfo dragInfo){ 
 
 }
-//ÆÄÀÏ ÀĞ¾î¼­ ÀûÀıÇÑ ÇüÅÂ·Î ¼³°èÇÑ ÀÚ·á±¸Á¶¿¡ ÀúÀåÇÏ´Â ÇÔ¼ö
-//2ÁÖÂ÷ ±¸Çö
+//íŒŒì¼ ì½ì–´ì„œ ì ì ˆí•œ í˜•íƒœë¡œ ì„¤ê³„í•œ ìë£Œêµ¬ì¡°ì— ì €ì¥í•˜ëŠ” í•¨ìˆ˜
+//2ì£¼ì°¨ êµ¬í˜„
 bool ofApp::readFile()
 {
-	static int count = 0;//ÀÌ ÇÔ¼ö°¡ ´Ù½Ã È£ÃâµÇ¾îµµ ÇÁ·Î±×·¥ÀÌ ½ÇÇàµÇ´Â µ¿¾ÈÀº ´Ù½Ã 0À¸·Î ÃÊ±âÈ­µÇÁö ¾ÊÀ½
+	static int count = 0;//ì´ í•¨ìˆ˜ê°€ ë‹¤ì‹œ í˜¸ì¶œë˜ì–´ë„ í”„ë¡œê·¸ë¨ì´ ì‹¤í–‰ë˜ëŠ” ë™ì•ˆì€ ë‹¤ì‹œ 0ìœ¼ë¡œ ì´ˆê¸°í™”ë˜ì§€ ì•ŠìŒ
 	ofFileDialogResult openFileResult = ofSystemLoadDialog("Select .maz file");
 	string filePath;
 	size_t pos;
@@ -480,7 +480,7 @@ bool ofApp::readFile()
 		printf("Open\n");
 		pos = filePath.find_last_of(".");
 
-		if (pos != string::npos && pos != 0 && filePath.substr(pos + 1) == "maz") {//ÆÄÀÏ ÀĞ±â ¼º°ø ½Ã
+		if (pos != string::npos && pos != 0 && filePath.substr(pos + 1) == "maz") {//íŒŒì¼ ì½ê¸° ì„±ê³µ ì‹œ
 	
 			ofFile file(fileName);
 
@@ -508,18 +508,18 @@ bool ofApp::readFile()
 			
 			WIDTH = (line.length())/2;
 
-			if (it != end) {//¸Ç À­ÁÙ, ¹Ì·ÎÀÇ ÃÖ»ó´ÜÀº ÆĞ½º
+			if (it != end) {//ë§¨ ìœ—ì¤„, ë¯¸ë¡œì˜ ìµœìƒë‹¨ì€ íŒ¨ìŠ¤
 				++it;
 			}
 			
 			// TO DO
-			// .maz ÆÄÀÏÀ» inputÀ¸·Î ¹Ş¾Æ¼­ ÀûÀıÈ÷ ÀÚ·á±¸Á¶¿¡ ³Ö´Â´Ù
-			//line by lineÀ¸·Î ¼øÈ¸, ¾È¿¡¼­ ¹æ°ú º®ÀÌ ÇÑÁÙ¾¿ ¹İº¹µÇ¹Ç·Î 
-			// ¹æÀ» ÀĞ¾îµéÀÌ¸é ¼¼·Îº® È®ÀÎÇØ ¿§Áö Ãß°¡ÇÏ¸é¼­ ¿À¸¥ÂÊÀ¸·Î ÀÌµ¿
-			// (°¡·Î)º®À» ÀĞ¾îµéÀÌ¸é ¿§Áö Ãß°¡ÇÏ¸é¼­ ¿À¸¥ÂÊÀ¸·Î ¤¡¤¡
-			// ¼ø¼­´ë·Î 0ºÎÅÍ ³Ñ¹ö¸µ
-			//»çÀÌ¿¡ º®ÀÌ ¾ø´Â °æ¿ì addEdge È£Ãâ
-			if (count != 0) {//ÆÄÀÏ ÀĞ±â°¡ Ã³À½ÀÌ ¾Æ´Ñ °æ¿ì(ÃÊ±âÈ­) ½ºÅÃµµ ÃÊ±âÈ­ÇØ¾ßÇÔ
+			// .maz íŒŒì¼ì„ inputìœ¼ë¡œ ë°›ì•„ì„œ ì ì ˆíˆ ìë£Œêµ¬ì¡°ì— ë„£ëŠ”ë‹¤
+			//line by lineìœ¼ë¡œ ìˆœíšŒ, ì•ˆì—ì„œ ë°©ê³¼ ë²½ì´ í•œì¤„ì”© ë°˜ë³µë˜ë¯€ë¡œ 
+			// ë°©ì„ ì½ì–´ë“¤ì´ë©´ ì„¸ë¡œë²½ í™•ì¸í•´ ì—£ì§€ ì¶”ê°€í•˜ë©´ì„œ ì˜¤ë¥¸ìª½ìœ¼ë¡œ ì´ë™
+			// (ê°€ë¡œ)ë²½ì„ ì½ì–´ë“¤ì´ë©´ ì—£ì§€ ì¶”ê°€í•˜ë©´ì„œ ì˜¤ë¥¸ìª½ìœ¼ë¡œ ã„±ã„±
+			// ìˆœì„œëŒ€ë¡œ 0ë¶€í„° ë„˜ë²„ë§
+			//ì‚¬ì´ì— ë²½ì´ ì—†ëŠ” ê²½ìš° addEdge í˜¸ì¶œ
+			if (count != 0) {//íŒŒì¼ ì½ê¸°ê°€ ì²˜ìŒì´ ì•„ë‹Œ ê²½ìš°(ì´ˆê¸°í™”) ìŠ¤íƒë„ ì´ˆê¸°í™”í•´ì•¼í•¨
 				freeMemory();
 				row1 = 0;
 				row2 = 0;
@@ -543,17 +543,17 @@ bool ofApp::readFile()
 				lastUpdateTime = 0.0;
 				startTime = 0.0;
 			}
-			for (; it != end; ++it) {//µÎ¹øÂ° ÁÙºÎÅÍ ¸¶Áö¸· ÁÙ±îÁö ¼øÈ¸
+			for (; it != end; ++it) {//ë‘ë²ˆì§¸ ì¤„ë¶€í„° ë§ˆì§€ë§‰ ì¤„ê¹Œì§€ ìˆœíšŒ
 				line = *it;
-				if (line[0] == '|') {//¹æÀÎ °æ¿ì... |  |  |    | ......
-					for (i = 2; i < line.length()-1; i += 2) {//Â¦¼öÀÎµ¦½º¸¸ È®ÀÎÇÏ¸é µÊ, ¸¶Áö¸·¿¡ ¹Ì·ÎÀÇ Å×µÎ¸®´Â È®ÀÎ¾ÈÇÏµµ·Ï -1
+				if (line[0] == '|') {//ë°©ì¸ ê²½ìš°... |  |  |    | ......
+					for (i = 2; i < line.length()-1; i += 2) {//ì§ìˆ˜ì¸ë±ìŠ¤ë§Œ í™•ì¸í•˜ë©´ ë¨, ë§ˆì§€ë§‰ì— ë¯¸ë¡œì˜ í…Œë‘ë¦¬ëŠ” í™•ì¸ì•ˆí•˜ë„ë¡ -1
 						if (line[i] != '|') {
 							addEdge(cnt * WIDTH + i/2-1, cnt * WIDTH + i/2);
 						}
 					}
 					cnt++;
 				}
-				else {//º®ÀÎ °æ¿ì... +-+  +-+- .....
+				else {//ë²½ì¸ ê²½ìš°... +-+  +-+- .....
 					for (i = 1; i < line.length()-1; i += 2) {
 						if (line[i] != '-') {
 							addEdge((cnt -1)* WIDTH + i/2, cnt * WIDTH + i/2);
@@ -562,9 +562,9 @@ bool ofApp::readFile()
 				}
 			}
 			HEIGHT = cnt;
-			//printGraph();///////////////////////////////////////µğ¹ö±ë¿ë
+			//printGraph();///////////////////////////////////////ë””ë²„ê¹…ìš©
 			//printf("height: %d width: %d\n", HEIGHT, WIDTH);//////////////////////////////////
-			count++;//ÇÑ¹ø ÆÄÀÏ ¿­¸é ´ÙÀ½ ½ÇÇà½Ã¿¡ ÃÊ±âÈ­µÇ¾î¾ß ÇÏ¹Ç·Î º¯¼ö ¾÷µ¥ÀÌÆ®
+			count++;//í•œë²ˆ íŒŒì¼ ì—´ë©´ ë‹¤ìŒ ì‹¤í–‰ì‹œì— ì´ˆê¸°í™”ë˜ì–´ì•¼ í•˜ë¯€ë¡œ ë³€ìˆ˜ ì—…ë°ì´íŠ¸
 			return true;
 		}
 		else {
@@ -573,7 +573,7 @@ bool ofApp::readFile()
 		}
 	}
 }
-///////////////////////////////////////////////////////////µğ¹ö±ë¿ë
+///////////////////////////////////////////////////////////ë””ë²„ê¹…ìš©
 void ofApp::printGraph() {
 	for (int i = 0; i < MAX_VERTICES; i++) {
 		if (graph[i] != NULL) {
@@ -590,30 +590,30 @@ void ofApp::printGraph() {
 void ofApp::freeMemory() {
 
 	//TO DO
-	// mallocÇÑ memory¸¦ freeÇØÁÖ´Â ÇÔ¼ö
-	//ÀÌ ÇÔ¼ö ³»ºÎ¿¡¼­ ÀÚ½ÅÀÌ ¸¸µç ÀÚ·á±¸Á¶¿¡ ÇÒ´çÇÑ ¸Ş¸ğ¸®µéÀ» ÇØÁ¦ ÇØ ÁÖ¾î¾ß¸¸, ¿©·¯ ÆÄÀÏÀ» ºÒ·¯¿Ã ¶§ ¸Ş¸ğ¸® °ü·Ã ¿¡·¯µéÀÌ ¹ß»ıÇÏÁö ¾Ê´Â´Ù. ¸Ş¸ğ¸® À¯Ãâ ÁÖÀÇ
+	// mallocí•œ memoryë¥¼ freeí•´ì£¼ëŠ” í•¨ìˆ˜
+	//ì´ í•¨ìˆ˜ ë‚´ë¶€ì—ì„œ ìì‹ ì´ ë§Œë“  ìë£Œêµ¬ì¡°ì— í• ë‹¹í•œ ë©”ëª¨ë¦¬ë“¤ì„ í•´ì œ í•´ ì£¼ì–´ì•¼ë§Œ, ì—¬ëŸ¬ íŒŒì¼ì„ ë¶ˆëŸ¬ì˜¬ ë•Œ ë©”ëª¨ë¦¬ ê´€ë ¨ ì—ëŸ¬ë“¤ì´ ë°œìƒí•˜ì§€ ì•ŠëŠ”ë‹¤. ë©”ëª¨ë¦¬ ìœ ì¶œ ì£¼ì˜
 	for (int i = 0; i < MAX_VERTICES; ++i) {
 		node_pointer current = graph[i];
 		while (current != NULL) {
 			node_pointer toDelete = current;
 			current = current->link;
-			free(toDelete); // ÇÒ´çµÈ ¸Ş¸ğ¸® ÇØÁ¦
+			free(toDelete); // í• ë‹¹ëœ ë©”ëª¨ë¦¬ í•´ì œ
 		}
-		graph[i] = NULL; // ±×·¡ÇÁ ¹è¿­ÀÇ ÇØ´ç Ç×¸ñÀ» NULL·Î ¼³Á¤
+		graph[i] = NULL; // ê·¸ë˜í”„ ë°°ì—´ì˜ í•´ë‹¹ í•­ëª©ì„ NULLë¡œ ì„¤ì •
 	}
 }
 
-//1,1¿¡¼­ ½ÃÀÛÇØ¼­ Âß °¡¸é¼­ °á°ú½ºÅÃ¿¡ ¼ø¼­´ë·Î ÀúÀå, 
-//¸·È÷¸é »õ·Î¿î ½ºÅÃ¸¸µé¾î¼­ °á°ú ½ºÅÃ¿¡ ÀÖ´ø°Å º¹»çÇÏ°í,  ÇöÀç²¨ popÇØ¼­ »õ ½ºÅÃ¿¡ ³ÖÀº ÈÄ Á÷ÀüÀ¸·Î µ¹¾Æ°¨
-// ->Á÷Àü À§Ä¡´Â °á°ú ½ºÅÃÀÇ Å¾ º¸¸é µÊ
-//¹«¹æÇâ ±×·¡ÇÁÀÌ¹Ç·Î, ÀÌ¹Ì Áö³ª°£ ¹æÀº Áö³ª°¬´Ù°í(visited) Ç¥½ÃÇØ¾ßµÊ->node¿¡ visited º¯¼ö Ãß°¡, Ã³À½¿£ 0À¸·Î ÃÊ±âÈ­
-bool ofApp::DFS()//DFSÅ½»öÀ» ÇÏ´Â ÇÔ¼ö
+//1,1ì—ì„œ ì‹œì‘í•´ì„œ ì­‰ ê°€ë©´ì„œ ê²°ê³¼ìŠ¤íƒì— ìˆœì„œëŒ€ë¡œ ì €ì¥, 
+//ë§‰íˆë©´ ìƒˆë¡œìš´ ìŠ¤íƒë§Œë“¤ì–´ì„œ ê²°ê³¼ ìŠ¤íƒì— ìˆë˜ê±° ë³µì‚¬í•˜ê³ ,  í˜„ì¬êº¼ popí•´ì„œ ìƒˆ ìŠ¤íƒì— ë„£ì€ í›„ ì§ì „ìœ¼ë¡œ ëŒì•„ê°
+// ->ì§ì „ ìœ„ì¹˜ëŠ” ê²°ê³¼ ìŠ¤íƒì˜ íƒ‘ ë³´ë©´ ë¨
+//ë¬´ë°©í–¥ ê·¸ë˜í”„ì´ë¯€ë¡œ, ì´ë¯¸ ì§€ë‚˜ê°„ ë°©ì€ ì§€ë‚˜ê°”ë‹¤ê³ (visited) í‘œì‹œí•´ì•¼ë¨->nodeì— visited ë³€ìˆ˜ ì¶”ê°€, ì²˜ìŒì—” 0ìœ¼ë¡œ ì´ˆê¸°í™”
+bool ofApp::DFS()//DFSíƒìƒ‰ì„ í•˜ëŠ” í•¨ìˆ˜
 {
 	//TO DO
-	//DFSÅ½»öÀ» ÇÏ´Â ÇÔ¼ö ( 3ÁÖÂ÷)
+	//DFSíƒìƒ‰ì„ í•˜ëŠ” í•¨ìˆ˜ ( 3ì£¼ì°¨)
 	int size = HEIGHT * WIDTH;
 
-	// Stack ÃÊ±âÈ­
+	// Stack ì´ˆê¸°í™”
 	DFSans.top = -1;
 	
 	int i = 0;
@@ -622,8 +622,8 @@ bool ofApp::DFS()//DFSÅ½»öÀ» ÇÏ´Â ÇÔ¼ö
 		i++;
 	}
 
-	node_pointer ptr = graph[0];//graph[n]ÀÇ vertax°¡ ¹Ù·Î ´ÙÀ½°Å
-	//ex) 0->1, 1->0->2->6, 2->1, 3->4->8ÀÌ¸é
+	node_pointer ptr = graph[0];//graph[n]ì˜ vertaxê°€ ë°”ë¡œ ë‹¤ìŒê±°
+	//ex) 0->1, 1->0->2->6, 2->1, 3->4->8ì´ë©´
 	//graph[1]->vertax=0, graph[1]->link->vertax=2, graph[1]->link->link->vertax=6..
 	DFSans.arr[++DFSans.top] = 0;
 	graph[0]->visited = 1;
@@ -631,18 +631,18 @@ bool ofApp::DFS()//DFSÅ½»öÀ» ÇÏ´Â ÇÔ¼ö
 	int index = 0;
 	int roomnum = 0;
 	while (roomnum<HEIGHT*WIDTH-1) {
-		if (ptr != NULL) {//¸·È÷Áö ¾ÊÀº °æ¿ì
-			if (graph[ptr->vertex]->visited == 0) {//¹æ¹®Çß´ø ¹æÀÌ ¾Æ´Ï¾î¾ßÇÔ
+		if (ptr != NULL) {//ë§‰íˆì§€ ì•Šì€ ê²½ìš°
+			if (graph[ptr->vertex]->visited == 0) {//ë°©ë¬¸í–ˆë˜ ë°©ì´ ì•„ë‹ˆì–´ì•¼í•¨
 				DFSans.arr[++DFSans.top] = ptr->vertex;
 				graph[ptr->vertex]->visited = 1;
 				roomnum = ptr->vertex;
 				ptr = graph[roomnum];
 			}
-			else {//¹æ¹®Çß´ø ¹æÀÎ °æ¿ì, graph[]->link->link...·Î
+			else {//ë°©ë¬¸í–ˆë˜ ë°©ì¸ ê²½ìš°, graph[]->link->link...ë¡œ
 				ptr = ptr->link;
 			}
 		}
-		else {//¸·Èù °æ¿ì, »õ ½ºÅÃ¿¡ ¼­ºê °æ·Î ÀúÀå ÈÄ Á÷ÀüÀ¸·Î µ¹¾Æ°¨
+		else {//ë§‰íŒ ê²½ìš°, ìƒˆ ìŠ¤íƒì— ì„œë¸Œ ê²½ë¡œ ì €ì¥ í›„ ì§ì „ìœ¼ë¡œ ëŒì•„ê°
 			for (int i = 0; i <= DFSans.top; i++) {
 				DFSsubroute[d_index].arr[i] = DFSans.arr[i];
 			}
@@ -650,9 +650,9 @@ bool ofApp::DFS()//DFSÅ½»öÀ» ÇÏ´Â ÇÔ¼ö
 			DFSsubroute[d_index].top = DFSans.top--;
 			d_index++;
 
-			//Á÷Àü(top), ±× Á÷Àü(top-1),...·Î °¡¼­ graph[Á÷Àü]->link°¡ ¹æ¹®µÇ¾ú´ÂÁö, ¹æ¹®µÇ¾ú´Ù¸é graph[Á÷Àü]->link->link°¡ ¹æ¹®µÇ¾ú´ÂÁö..
-			//´Ù ¹æ¹®µÇ¾ú´Ù¸é graph[top-1]ÀÇ linkµ¹¸ç ¹æ¹® ¾ÈµÈ °÷ Ã£À»¶§±îÁö ¤¡¤¡
-			//Ã£À¸¸é ±× ¹æÀ» roomnumÀ¸·Î ÇÏ°í graph[roomnum]¿¡¼­ ´Ù½Ã Å½»ö ½ÃÀÛ
+			//ì§ì „(top), ê·¸ ì§ì „(top-1),...ë¡œ ê°€ì„œ graph[ì§ì „]->linkê°€ ë°©ë¬¸ë˜ì—ˆëŠ”ì§€, ë°©ë¬¸ë˜ì—ˆë‹¤ë©´ graph[ì§ì „]->link->linkê°€ ë°©ë¬¸ë˜ì—ˆëŠ”ì§€..
+			//ë‹¤ ë°©ë¬¸ë˜ì—ˆë‹¤ë©´ graph[top-1]ì˜ linkëŒë©° ë°©ë¬¸ ì•ˆëœ ê³³ ì°¾ì„ë•Œê¹Œì§€ ã„±ã„±
+			//ì°¾ìœ¼ë©´ ê·¸ ë°©ì„ roomnumìœ¼ë¡œ í•˜ê³  graph[roomnum]ì—ì„œ ë‹¤ì‹œ íƒìƒ‰ ì‹œì‘
 			
 			ptr = graph[DFSans.arr[DFSans.top]];
 
@@ -674,7 +674,7 @@ bool ofApp::DFS()//DFSÅ½»öÀ» ÇÏ´Â ÇÔ¼ö
 	return 0;
 }
 
-///////////////////µğ¹ö±ë¿ë
+///////////////////ë””ë²„ê¹…ìš©
 void ofApp::printStack(Stack* stack){
 	for (int i = 0; i <= stack->top; i++) {
 		printf("%d ", stack->arr[i]);
@@ -685,17 +685,17 @@ void ofApp::printStack(Stack* stack){
 void ofApp::dfsdraw()
 {
 	//TO DO 
-	//DFS¸¦ ¼öÇàÇÑ °á°ú¸¦ ±×¸°´Ù. (3ÁÖÂ÷ ³»¿ë)
+	//DFSë¥¼ ìˆ˜í–‰í•œ ê²°ê³¼ë¥¼ ê·¸ë¦°ë‹¤. (3ì£¼ì°¨ ë‚´ìš©)
 	row1 = 10 + SIZE / 2;
 	col1 = 10 + SIZE / 2;
 	row2 = row1;
 	col2 = col1;
 	int i = 0;
 	while (i < DFSans.top) {
-		if (abs(DFSans.arr[i + 1] - DFSans.arr[i]) != WIDTH) {//°¡·Î
+		if (abs(DFSans.arr[i + 1] - DFSans.arr[i]) != WIDTH) {//ê°€ë¡œ
 			col2 += SIZE * (DFSans.arr[i + 1] - DFSans.arr[i]);
 		}
-		else {//¼¼·Î
+		else {//ì„¸ë¡œ
 			row2 += SIZE * ((DFSans.arr[i + 1] - DFSans.arr[i]) / WIDTH);
 		}
 		ofDrawLine(col1, row1, col2, row2);
@@ -720,10 +720,10 @@ void ofApp::dfssubdraw() {
 		col2 = col1;
 		int i = 0;
 		while (i < DFSsubroute[k].top) {
-			if (abs(DFSsubroute[k].arr[i + 1] - DFSsubroute[k].arr[i]) != WIDTH) {//°¡·Î
+			if (abs(DFSsubroute[k].arr[i + 1] - DFSsubroute[k].arr[i]) != WIDTH) {//ê°€ë¡œ
 				col2 += SIZE * (DFSsubroute[k].arr[i + 1] - DFSsubroute[k].arr[i]);
 			}
-			else {//¼¼·Î
+			else {//ì„¸ë¡œ
 				row2 += SIZE * ((DFSsubroute[k].arr[i + 1] - DFSsubroute[k].arr[i]) / WIDTH);
 			}
 			ofDrawLine(col1, row1, col2, row2);
@@ -741,8 +741,8 @@ int ofApp::dequeue(Queue* q) {
 }
 void ofApp::BFS() {
 
-	int dest = HEIGHT * WIDTH - 1;//¸ñÀûÁö
-	//int* parent = (int*)malloc(dest * sizeof(int));//°¢ ¹æÀÇ ºÎ¸ğ ÀúÀåÇÏ´Â ¹è¿­
+	int dest = HEIGHT * WIDTH - 1;//ëª©ì ì§€
+	//int* parent = (int*)malloc(dest * sizeof(int));//ê° ë°©ì˜ ë¶€ëª¨ ì €ì¥í•˜ëŠ” ë°°ì—´
 	int parent[5000];
 	for (int i = 0; i < dest; ++i) {
 		parent[i] = -1;
@@ -761,13 +761,13 @@ void ofApp::BFS() {
 		i++;
 	}
 
-	int current = 0;//ÇöÀç ¹æ(³ëµå)
+	int current = 0;//í˜„ì¬ ë°©(ë…¸ë“œ)
 	node_pointer ptr = graph[current];
 	ptr->visited = 1;
 
-	while (current != dest) {//¹æµé ¹æ¹® ¹İº¹, ¸ñÀûÁö±îÁö
+	while (current != dest) {//ë°©ë“¤ ë°©ë¬¸ ë°˜ë³µ, ëª©ì ì§€ê¹Œì§€
 		int cnt = 0;
-		while (1) {//ÇØ´ç ¹æÀÇ ÀÎÁ¢¹æ(link)µé ¹æ¹®, null±îÁö
+		while (1) {//í•´ë‹¹ ë°©ì˜ ì¸ì ‘ë°©(link)ë“¤ ë°©ë¬¸, nullê¹Œì§€
 			if (graph[ptr->vertex]->visited == 0) {
 				cnt++;
 				enqueue(&tmp, ptr->vertex);
@@ -781,30 +781,30 @@ void ofApp::BFS() {
 				break;
 			}
 		}
-		if (cnt == 0) {//»õ·Ó°Ô Ãß°¡µÈ ¹æ ÇÏ³ªµµ ¾øÀ½, Áï ±æÀÌ ¸·Èû->°æ·Î ÀúÀå ÇÊ¿ä
+		if (cnt == 0) {//ìƒˆë¡­ê²Œ ì¶”ê°€ëœ ë°© í•˜ë‚˜ë„ ì—†ìŒ, ì¦‰ ê¸¸ì´ ë§‰í˜->ê²½ë¡œ ì €ì¥ í•„ìš”
 			bfs2queue(parent, current);
 		}
 
-		//´ÙÀ½ ³ëµå ÁØºñ
+		//ë‹¤ìŒ ë…¸ë“œ ì¤€ë¹„
 		current = dequeue(&tmp);
 		ptr = graph[current];
 
 	}
 
 	BFSans.front = 0;
-	BFSans.rear = 0;//ÃÊ±âÈ­
+	BFSans.rear = 0;//ì´ˆê¸°í™”
 
 	while (dest != -1) {
 		enqueue(&BFSans, dest);
 		dest = parent[dest];
 	}
-	//free(parent);//ÇÁ¸®ÇÏ¸é ¿À·ù³ª¼­ Á¤ÀûÇÒ´çÀ¸·Î ¹Ù²Ş, ¿Ö¿À·ù?¹é±×¶ó¿îµå¿¡¼­ µå·Î¿ì´Â °è¼Ó ½ÇÇàµÇ´Âµ¥ ¸Ş¸ğ¸® ÇØÁ¦ÇØ¹ö·ª¼­..?
+	//free(parent);//í”„ë¦¬í•˜ë©´ ì˜¤ë¥˜ë‚˜ì„œ ì •ì í• ë‹¹ìœ¼ë¡œ ë°”ê¿ˆ, ì™œì˜¤ë¥˜?ë°±ê·¸ë¼ìš´ë“œì—ì„œ ë“œë¡œìš°ëŠ” ê³„ì† ì‹¤í–‰ë˜ëŠ”ë° ë©”ëª¨ë¦¬ í•´ì œí•´ë²„ë´ì„œ..?
 }
 
 void ofApp::bfs2queue(int parent[], int end) {
 
 	BFSsubroute[b_index].front = 0;
-	BFSsubroute[b_index].rear = 0;//ÃÊ±âÈ­
+	BFSsubroute[b_index].rear = 0;//ì´ˆê¸°í™”
 
 	while (end != -1) {
 		enqueue(&BFSsubroute[b_index], end);
@@ -823,10 +823,10 @@ void ofApp::bfsdraw()
 	col2 = col1;
 	int i = BFSans.rear - 1;
 	while (i > BFSans.front) {
-		if (abs(BFSans.arr[i - 1] - BFSans.arr[i]) != WIDTH) {//°¡·Î
+		if (abs(BFSans.arr[i - 1] - BFSans.arr[i]) != WIDTH) {//ê°€ë¡œ
 			col2 += SIZE * (BFSans.arr[i - 1] - BFSans.arr[i]);
 		}
-		else {//¼¼·Î
+		else {//ì„¸ë¡œ
 			row2 += SIZE * ((BFSans.arr[i - 1] - BFSans.arr[i]) / WIDTH);
 		}
 		ofDrawLine(col1, row1, col2, row2);
@@ -844,10 +844,10 @@ void ofApp::bfssubdraw() {
 		col2 = col1;
 		int i = BFSsubroute[k].rear - 1;
 		while (i > BFSsubroute[k].front) {
-			if (abs(BFSsubroute[k].arr[i - 1] - BFSsubroute[k].arr[i]) != WIDTH) {//°¡·Î
+			if (abs(BFSsubroute[k].arr[i - 1] - BFSsubroute[k].arr[i]) != WIDTH) {//ê°€ë¡œ
 				col2 += SIZE * (BFSsubroute[k].arr[i - 1] - BFSsubroute[k].arr[i]);
 			}
-			else {//¼¼·Î
+			else {//ì„¸ë¡œ
 				row2 += SIZE * ((BFSsubroute[k].arr[i - 1] - BFSsubroute[k].arr[i]) / WIDTH);
 			}
 			ofDrawLine(col1, row1, col2, row2);
@@ -866,10 +866,10 @@ void ofApp::playdraw() {
 	col2 = col1;
 	int i = 0;
 	while (i < playroute.top) {
-		if (abs(playroute.arr[i + 1] - playroute.arr[i]) != WIDTH) {//°¡·Î
+		if (abs(playroute.arr[i + 1] - playroute.arr[i]) != WIDTH) {//ê°€ë¡œ
 			col2 += SIZE * (playroute.arr[i + 1] - playroute.arr[i]);
 		}
-		else {//¼¼·Î
+		else {//ì„¸ë¡œ
 			row2 += SIZE * ((playroute.arr[i + 1] - playroute.arr[i]) / WIDTH);
 		}
 		ofDrawLine(col1, row1, col2, row2);
@@ -877,17 +877,17 @@ void ofApp::playdraw() {
 		col1 = col2;
 		i++;
 	}
-	ofDrawCircle(col1, row1, SIZE / 5);//ÇöÀçÀ§Ä¡ ³ªÅ¸³»´Â ¿ø Ç¥½Ã
+	ofDrawCircle(col1, row1, SIZE / 5);//í˜„ì¬ìœ„ì¹˜ ë‚˜íƒ€ë‚´ëŠ” ì› í‘œì‹œ
 }
 
-//°í·ÁÇÒ°Í
-//1)¹Ì·Î»çÀÌÁî°¡ Å¬¼ö·Ï, 2)Å»Ãâ°æ·Î°¡ ²ªÀÌ´Â ºÎºĞÀÌ ¸¹À»¼ö·Ï. Áï Å»Ãâ°æ·ÎÀÇ ½ºÅÃ/Å¥ÀÇ ¿ø¼ÒÀÇ °³¼ö°¡ ¸¹À» ¼ö·Ï.
+//ê³ ë ¤í• ê²ƒ
+//1)ë¯¸ë¡œì‚¬ì´ì¦ˆê°€ í´ìˆ˜ë¡, 2)íƒˆì¶œê²½ë¡œê°€ êº¾ì´ëŠ” ë¶€ë¶„ì´ ë§ì„ìˆ˜ë¡. ì¦‰ íƒˆì¶œê²½ë¡œì˜ ìŠ¤íƒ/íì˜ ì›ì†Œì˜ ê°œìˆ˜ê°€ ë§ì„ ìˆ˜ë¡.
 void ofApp::calcTime2escape() {
 
 	time_limit = 1;
-	time_limit *= sqrt(pow(HEIGHT, 2) + pow(WIDTH, 2));//´ë°¢¼± ±æÀÌ¶û ºñ·Ê
+	time_limit *= sqrt(pow(HEIGHT, 2) + pow(WIDTH, 2));//ëŒ€ê°ì„  ê¸¸ì´ë‘ ë¹„ë¡€
 
 	DFS();
-	time_limit += DFSans.top;//2¸¦ °í·ÁÇÑ°ÅÁö¸¸, 1µµ Àº¿¬ Áß¿¡ °í·ÁµÈ °Í. »çÀÌÁî°¡ Å¬¼ö·Ï ½ºÅÃÀÇ ¿ø¼Òµµ ¸¹À» ¼ö ¹Û¿¡..
+	time_limit += DFSans.top;//2ë¥¼ ê³ ë ¤í•œê±°ì§€ë§Œ, 1ë„ ì€ì—° ì¤‘ì— ê³ ë ¤ëœ ê²ƒ. ì‚¬ì´ì¦ˆê°€ í´ìˆ˜ë¡ ìŠ¤íƒì˜ ì›ì†Œë„ ë§ì„ ìˆ˜ ë°–ì—..
 
 }
